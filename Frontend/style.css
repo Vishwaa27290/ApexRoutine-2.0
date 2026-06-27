@@ -1,0 +1,210 @@
+/* Core Structural Tokens & System Themes */
+:root {
+    --bg-workspace: #090d16;
+    --bg-panel: rgba(17, 24, 39, 0.7);
+    --border-glow: rgba(99, 102, 241, 0.15);
+    --border-standard: rgba(255, 255, 255, 0.08);
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --primary-glow: #6366f1;
+    --cat-health: #10b981;
+    --cat-work: #3b82f6;
+    --cat-mind: #f59e0b;
+    --card-surface: rgba(31, 41, 55, 0.4);
+    --transition-curve: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+[data-theme="light"] {
+    --bg-workspace: #f8fafc;
+    --bg-panel: rgba(255, 255, 255, 0.85);
+    --border-glow: rgba(79, 70, 229, 0.1);
+    --border-standard: rgba(15, 23, 42, 0.08);
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --primary-glow: #4f46e5;
+    --card-surface: rgba(255, 255, 255, 0.9);
+}
+
+/* Global Reset Definitions */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--bg-workspace);
+    color: var(--text-primary);
+    min-height: 100vh;
+    transition: var(--transition-curve);
+    overflow: hidden;
+}
+
+/* Flexbox System Shell Frame Layout */
+.app-shell {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Glassmorphic Management Sidebar Dashboard panel */
+.panel-control {
+    width: 380px;
+    background: var(--bg-panel);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid var(--border-standard);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    overflow-y: auto;
+}
+
+.brand-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.brand-header h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.05em; }
+
+/* Control Form Ingestion Inputs styling configuration */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+.input-row { display: flex; gap: 1rem; }
+.input-row .input-group { flex: 1; }
+
+label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); font-weight: 600; }
+input, select {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-standard);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    outline: none;
+    transition: var(--transition-curve);
+}
+input:focus, select:focus { border-color: var(--primary-glow); box-shadow: 0 0 0 3px var(--border-glow); }
+
+/* Interface Interactive Button Modules */
+.btn {
+    width: 100%;
+    padding: 0.85rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-curve);
+}
+.btn-primary { background: var(--primary-glow); color: #ffffff; }
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-danger-text { background: transparent; color: #ef4444; width: auto; font-size: 0.85rem;}
+
+/* Realtime Telemetry Reporting Widgets */
+.analytics-box {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-standard);
+    border-radius: 12px;
+    padding: 1.2rem;
+}
+.metric-tile { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;}
+.metric-value { font-size: 1.75rem; font-weight: 800; color: var(--primary-glow); }
+.metric-mini-grid { display: flex; gap: 1rem; }
+.mini-tile { flex: 1; background: rgba(0,0,0,0.15); padding: 0.5rem; border-radius: 6px; text-align: center; }
+.mini-tile .lbl { display: block; font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase;}
+.mini-tile .val { font-size: 1.1rem; font-weight: 700; }
+
+/* Main Dynamic Workspace Execution Layout Viewport */
+.workspace-viewport {
+    flex: 1;
+    padding: 3rem;
+    overflow-y: auto;
+}
+.workspace-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
+.current-date { color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.25rem; }
+
+/* Dynamic Routine Element Card Matrix Layout grid configuration */
+.routine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Hardware Accelerated Functional Pipeline Object Cards */
+.routine-card {
+    background: var(--card-surface);
+    border: 1px solid var(--border-standard);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 170px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.routine-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    border-color: var(--border-glow);
+}
+
+/* Structural Category Boundary Indicator Ribbons */
+.routine-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: var(--accent-indicator, var(--primary-glow));
+}
+
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.card-meta h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.25rem; word-break: break-word; }
+.card-time { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); background: rgba(0,0,0,0.1); padding: 0.2rem 0.5rem; border-radius: 4px; }
+
+.btn-delete { background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.1rem; }
+.btn-delete:hover { color: #ef4444; }
+
+/* Checked Active State Component Updates styling rules */
+.routine-card.completed {
+    opacity: 0.6;
+    border-color: transparent;
+}
+.routine-card.completed .card-meta h3 { text-decoration: line-through; color: var(--text-secondary); }
+
+/* Custom Native Checkbox Interface Customization overrides */
+.btn-checkbox {
+    width: 100%;
+    background: rgba(0,0,0,0.1);
+    border: 1px solid var(--border-standard);
+    color: var(--text-primary);
+    padding: 0.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: var(--transition-curve);
+}
+.routine-card.completed .btn-checkbox { background: var(--cat-health); color: #fff; border-color: transparent; }
+
+.empty-state { text-align: center; padding: 5rem 2rem; color: var(--text-secondary); }
+.empty-visual { font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5; }
+
+.btn-theme { background: transparent; border: 1px solid var(--border-standard); color: var(--text-secondary); padding: 0.5rem; border-radius: 6px; cursor: pointer; align-self: flex-start; font-size: 0.8rem;}
+
+/* Micro Responsive System Media Adaptations rulesets */
+@media (max-width: 900px) {
+    .app-shell { flex-direction: column; height: auto; overflow: visible; }
+    .panel-control { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border-standard); }
+    body { overflow: auto; }
+}

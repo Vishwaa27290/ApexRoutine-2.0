@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApexRoutine // Enterprise Habit Engine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <!-- Control Dashboard Sidebar -->
+        <aside class="panel-control" aria-label="System Configurations">
+            <div class="brand-header">
+                <div class="brand-icon">⚡</div>
+                <h1>ApexRoutine</h1>
+            </div>
+
+            <!-- Routine Setter Action Hub -->
+            <section class="setter-box">
+                <h2>Configure Routine</h2>
+                <form id="routineForm" novalidate>
+                    <div class="input-group">
+                        <label for="taskName">Routine Activity</label>
+                        <input type="text" id="taskName" placeholder="e.g., Deep Work, Gym session" required max="40">
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="taskTime">Target Time</label>
+                            <input type="time" id="taskTime" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="taskCategory">Category</label>
+                            <select id="taskCategory">
+                                <option value="health">Health & Vitality</option>
+                                <option value="work">Focus & Career</option>
+                                <option value="mind">Mind & Learning</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Initialize Activity</button>
+                </form>
+            </section>
+
+            <!-- Diagnostics Metrics Matrix -->
+            <section class="analytics-box" aria-label="Performance Matrix">
+                <div class="metric-tile">
+                    <span class="metric-label">Execution Rate</span>
+                    <div class="progress-ring-container">
+                        <span class="metric-value" id="completionRate">0%</span>
+                    </div>
+                </div>
+                <div class="metric-mini-grid">
+                    <div class="mini-tile"><span class="lbl">Done</span><span class="val" id="countDone">0</span></div>
+                    <div class="mini-tile"><span class="lbl">Pending</span><span class="val" id="countPending">0</span></div>
+                </div>
+            </section>
+            
+            <button id="themeToggle" class="btn-theme" aria-label="Switch UI Color Theme">🌙 Toggle Theme</button>
+        </aside>
+
+        <!-- Main Runtime Live Workspace Container -->
+        <main class="workspace-viewport">
+            <header class="workspace-header">
+                <div>
+                    <h2>Daily Pipeline</h2>
+                    <p class="current-date" id="datePresenter">Loading chronological synchronization...</p>
+                </div>
+                <button id="purgeBtn" class="btn btn-danger-text">Purge Workspace</button>
+            </header>
+
+            <!-- Dynamic Target Ingestion Point -->
+            <div id="emptyState" class="empty-state">
+                <div class="empty-visual">📅</div>
+                <h3>No Active Pipeline Data</h3>
+                <p>Configure and initialize variables within the panel to track progress.</p>
+            </div>
+
+            <section class="routine-grid" id="routineGrid" aria-live="polite">
+                <!-- Javascript Components Injected Intelligently Here -->
+            </section>
+        </main>
+    </div>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
