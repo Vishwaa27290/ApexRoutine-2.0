@@ -1,4 +1,4 @@
-package main.java.com.apex.routine.controller;
+package com.apex.routine.controller;
 
 import com.apex.routine.dto.RoutineRequestDto;
 import com.apex.routine.dto.RoutineResponseDto;

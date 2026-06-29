@@ -1,4 +1,4 @@
-package main.java.com.apex.routine.dto;
+package com.apex.routine.dto;
 
 import com.apex.routine.model.Category;
 import java.time.LocalTime;
