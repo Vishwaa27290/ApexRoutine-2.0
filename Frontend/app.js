@@ -74,6 +74,8 @@ class RoutineEngine {
 
         const dynamicActivityPayload = {
             id: `act_${crypto.randomUUID().split('-')[0]}`,
+
+
             title: this.dom.inputName.value.trim(),
             time: this.dom.inputTime.value,
             category: this.dom.inputCategory.value,
