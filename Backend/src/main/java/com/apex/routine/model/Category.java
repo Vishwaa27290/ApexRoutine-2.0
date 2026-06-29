@@ -1,4 +1,4 @@
-package com.apex.routine.model;
+package main.java.com.apex.routine.model;
 
 public enum Category {
     health,

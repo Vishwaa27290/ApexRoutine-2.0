@@ -1,4 +1,4 @@
-package com.apex.routine.exception;
+package main.java.com.apex.routine.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

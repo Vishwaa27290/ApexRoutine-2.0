@@ -1,4 +1,4 @@
-package com.apex.routine.repository;
+package main.java.com.apex.routine.repository;
 
 import com.apex.routine.model.Routine;
 import org.springframework.data.jpa.repository.JpaRepository;
