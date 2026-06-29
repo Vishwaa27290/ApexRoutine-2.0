@@ -1,4 +1,5 @@
-package main.java.com.apex.routine.model;
+package com.apex.routine.model;
+
 
 import jakarta.persistence.*;
 import java.time.LocalTime;
