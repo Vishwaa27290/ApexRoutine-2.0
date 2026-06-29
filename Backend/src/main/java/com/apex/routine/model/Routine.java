@@ -18,7 +18,7 @@ public class Routine {
     @Column(nullable = false, length = 40)
     private String title;
 
-    @Column(name = "time_slot", nullable = false)
+    @Column(name = "time_slot", nullable = false , columnDefinition = "TIME")
     private LocalTime time;
 
     @Enumerated(EnumType.STRING)
