@@ -1,32 +1,30 @@
 /**
  * Advanced State-Driven Routine Synchronization Engine
- * Architectural elements: Proxy State Interception, Encapsulated LocalStorage Pipelines, Functional Data Transforms
+ * Integrated with Spring Boot & MySQL REST API Framework
  */
 
 class RoutineEngine {
     constructor() {
-        // Core Encapsulated Reactive Data Repository Proxy initialization Configuration logic
+        this.apiUrl = 'http://localhost:8080/api/routines';
+        
         this.state = this._buildReactiveProxy({
-            routines: this._syncLocalStorageInbound(),
+            routines: [],
             theme: localStorage.getItem('apex-theme') || 'dark'
         });
 
         this._collectDOMReferences();
         this._wireEventInterceptors();
-        this._updateChronologicalContext();
+        this._updateChronologicalContext(); // Runs first to ensure the date renders instantly
         
-        // Execute bootstrap rendering sequence across interface framework
         this._renderInterface('theme');
-        this._renderInterface('routines');
+        this._fetchRoutinesFromServer(); // Safely fetches backend data asynchronously
     }
 
     _buildReactiveProxy(initialStateObject) {
         return new Proxy(initialStateObject, {
             set: (target, property, value) => {
                 target[property] = value;
-                // Dispatch isolated target processing execution branches
                 this._renderInterface(property);
-                if (property === 'routines') this._syncLocalStorageOutbound(value);
                 return true;
             }
         });
@@ -43,7 +41,6 @@ class RoutineEngine {
             dateDisplay: document.getElementById('datePresenter'),
             themeBtn: document.getElementById('themeToggle'),
             purgeBtn: document.getElementById('purgeBtn'),
-            // Performance metrics computation slots
             metricRate: document.getElementById('completionRate'),
             metricDone: document.getElementById('countDone'),
             metricPending: document.getElementById('countPending')
@@ -55,7 +52,6 @@ class RoutineEngine {
         this.dom.themeBtn.addEventListener('click', () => this._cycleThemeSequence());
         this.dom.purgeBtn.addEventListener('click', () => this._purgeWorkspaceData());
         
-        // Dynamic Delegation Pattern configuration for runtime list interactions
         this.dom.grid.addEventListener('click', (e) => {
             const card = e.target.closest('.routine-card');
             if (!card) return;
@@ -66,41 +62,77 @@ class RoutineEngine {
         });
     }
 
-    _handleIngestion(event) {
+    async _fetchRoutinesFromServer() {
+        try {
+            const response = await fetch(this.apiUrl);
+            if (!response.ok) throw new Error("Server communication fault");
+            this.state.routines = await response.json();
+        } catch (error) {
+            console.error("Failed fetching pipeline matrix from server:", error);
+            this.state.routines = []; // Fallback empty state
+        }
+    }
+
+    async _handleIngestion(event) {
         event.preventDefault();
-        
-        // Native Ingestion Field Validation Constraints Check
         if (!this.dom.form.checkValidity()) return;
 
         const dynamicActivityPayload = {
             id: `act_${crypto.randomUUID().split('-')[0]}`,
-
-
             title: this.dom.inputName.value.trim(),
-            time: this.dom.inputTime.value,
+            time: this.dom.inputTime.value + ":00", // Standard localTime formatting mapping
             category: this.dom.inputCategory.value,
             completed: false,
             timestamp: Date.now()
         };
 
-        // Mutation updates active ecosystem through proxy configuration boundaries
-        this.state.routines = [...this.state.routines, dynamicActivityPayload];
-        this.dom.form.reset();
+        try {
+            const response = await fetch(this.apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dynamicActivityPayload)
+            });
+            if (!response.ok) throw new Error("Persistence error");
+            const savedRoutine = await response.json();
+            this.state.routines = [...this.state.routines, savedRoutine];
+            this.dom.form.reset();
+        } catch (error) {
+            console.error("Persistence injection failure:", error);
+        }
     }
 
-    _toggleActivityState(activityId) {
-        this.state.routines = this.state.routines.map(item => 
-            item.id === activityId ? { ...item, completed: !item.completed } : item
-        );
+    async _toggleActivityState(activityId) {
+        try {
+            const response = await fetch(`${this.apiUrl}/${activityId}/toggle`, { method: 'PATCH' });
+            if (!response.ok) throw new Error("Toggle sync failure");
+            const updatedRoutine = await response.json();
+            this.state.routines = this.state.routines.map(item => 
+                item.id === activityId ? updatedRoutine : item
+            );
+        } catch (error) {
+            console.error("Failed setting active proxy element target state:", error);
+        }
     }
 
-    _destroyActivityInstance(activityId) {
-        this.state.routines = this.state.routines.filter(item => item.id !== activityId);
+    async _destroyActivityInstance(activityId) {
+        try {
+            const response = await fetch(`${this.apiUrl}/${activityId}`, { method: 'DELETE' });
+            if (!response.ok) throw new Error("Deletion failure");
+            this.state.routines = this.state.routines.filter(item => item.id !== activityId);
+        } catch (error) {
+            console.error("Purging routine target element failed:", error);
+        }
     }
 
-    _purgeWorkspaceData() {
+    async _purgeWorkspaceData() {
         if (confirm("Are you sure you want to reset the dynamic workspace canvas pipeline variables?")) {
-            this.state.routines = [];
+            try {
+                const response = await fetch(`${this.apiUrl}/purge`, { method: 'DELETE' });
+                if (!response.ok) throw new Error("Purge failure");
+                this.state.routines = [];
+            } catch (error) {
+                console.error("Purge operations crashed unexpectedly:", error);
+            }
         }
     }
 
@@ -111,10 +143,11 @@ class RoutineEngine {
 
     _updateChronologicalContext() {
         const structuralOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        this.dom.dateDisplay.textContent = new Date().toLocaleDateString('en-US', structuralOptions);
+        if (this.dom && this.dom.dateDisplay) {
+            this.dom.dateDisplay.textContent = new Date().toLocaleDateString('en-US', structuralOptions);
+        }
     }
 
-    // High Density Matrix computation interface methods
     _computeTelemetryMatrix() {
         const total = this.state.routines.length;
         const complete = this.state.routines.filter(r => r.completed).length;
@@ -126,14 +159,13 @@ class RoutineEngine {
         this.dom.metricRate.textContent = `${computationalRatio}%`;
     }
 
-    // High Optimization Selective UI Invalidation Engine Architecture
     _renderInterface(targetMutationPlane) {
         if (targetMutationPlane === 'theme') {
             document.body.setAttribute('data-theme', this.state.theme);
             this.dom.themeBtn.textContent = this.state.theme === 'dark' ? '☀️ Light View' : '🌙 Dark View';
         }
 
-        if (targetMutationPlane === 'routines') {
+        if (targetMutationPlane === 'routines' && this.state.routines) {
             const elementsCount = this.state.routines.length;
             this._computeTelemetryMatrix();
 
@@ -146,19 +178,22 @@ class RoutineEngine {
             this.dom.emptyState.style.display = 'none';
             this.dom.grid.style.display = 'grid';
 
-            // Order chronological processing pipelines by target scheduled processing timestamps
-            const sequencedCollection = [...this.state.routines].sort((alpha, beta) => alpha.time.localeCompare(beta.time));
+            const sequencedCollection = [...this.state.routines].sort((alpha, beta) => {
+                if (!alpha.time || !beta.time) return 0;
+                return alpha.time.localeCompare(beta.time);
+            });
 
             this.dom.grid.innerHTML = sequencedCollection.map(task => {
                 const categoryColorMap = { health: 'var(--cat-health)', work: 'var(--cat-work)', mind: 'var(--cat-mind)' };
+                const visibleTime = task.time ? task.time.substring(0, 5) : "--:--"; 
                 return `
-                    <article class="routine-card ${task.completed ? 'completed' : ''}" data-id="${task.id}" style="--accent-indicator: ${categoryColorMap[task.category]}">
+                    <article class="routine-card ${task.completed ? 'completed' : ''}" data-id="${task.id}" style="--accent-indicator: ${categoryColorMap[task.category] || 'var(--primary-glow)'}">
                         <div class="card-top">
                             <div class="card-meta">
-                                <h3>${this._escapeOutputSanitization(task.title)}</h3>
-                                <time class="card-time">⏰ ${task.time}</time>
+                                <h3>${this._escapeOutputSanitization(task.title || '')}</h3>
+                                <time class="card-time">⏰ ${visibleTime}</time>
                             </div>
-                            <button class="btn-delete" aria-label="Delete ${this._escapeOutputSanitization(task.title)}">✕</button>
+                            <button class="btn-delete" aria-label="Delete ${this._escapeOutputSanitization(task.title || '')}">✕</button>
                         </div>
                         <button class="btn-checkbox">
                             <span>${task.completed ? '✓ Finalized' : '◯ Mark Executed'}</span>
@@ -173,23 +208,8 @@ class RoutineEngine {
         const elementMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;' };
         return inputStringData.replace(/[&<>"']/g, match => elementMap[match]);
     }
-
-    _syncLocalStorageInbound() {
-        try {
-            const rawStoredPipelineData = localStorage.getItem('apex-routines-pipeline');
-            return rawStoredPipelineData ? JSON.parse(rawStoredPipelineData) : [];
-        } catch (error) {
-            console.error("Storage structural ingestion pipeline faulted. Initializing empty matrix.", error);
-            return [];
-        }
-    }
-
-    _syncLocalStorageOutbound(dataPayloadState) {
-        localStorage.setItem('apex-routines-pipeline', JSON.stringify(dataPayloadState));
-    }
 }
 
-// Instantiate Global Runtime Operational Environment Module
 document.addEventListener('DOMContentLoaded', () => {
-    window.AppRuntimeInstance = new RoutineEngine();
+    window.AppRuntimeEngine = new RoutineEngine();
 });
