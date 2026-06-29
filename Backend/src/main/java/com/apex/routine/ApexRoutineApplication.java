@@ -1,4 +1,4 @@
-package com.apex.routine;
+package main.java.com.apex.routine;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
