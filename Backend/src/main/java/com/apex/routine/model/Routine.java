@@ -31,6 +31,13 @@ public class Routine {
     @Column(name = "created_at", nullable = false, updatable = false)
     private long timestamp;
 
+    @PrePersist
+    public void generateIdforeSave() {
+        if(this.id == null){
+            this.id = java.util.UUID.randomUUID().toString();
+        }
+    }
+
     public Routine() {}
 
     public String getId() { return id; }
